@@ -17,33 +17,30 @@ def insert(root, key):
     return root
 
 
-def sum_divisible(root):
-    if root is None:
-        return 0
-    total = 0
-    if root.val % 5 == 0:
-        total += root.val
-    total += sum_divisible(root.left)
-    total += sum_divisible(root.right)
-    return total
-
-
 def inorder(root):
-    if root is not None:
+    if root:
         inorder(root.left)
         print(root.val, end=" ")
         inorder(root.right)
 
 
+def sum_divisible(root):
+    if root is None:
+        return 0
+    totalSum = 0
+    totalSum += sum_divisible(root.left)
+    if root.val % 5 == 0:
+        totalSum += root.val
+    totalSum += sum_divisible(root.right)
+    return totalSum
+
+
 if __name__ == "__main__":
-    values = list(map(int, input("Enter the tree values: ").split()))
-    root = None
-    for key in values:
-        root = insert(root, key)
-
-    print("Inorder Traversal: ")
-    inorder(root)
-    print()
-
-    totalSum = sum_divisible(root)
-    print(f"\nThe sum of nodes divisible by 5 is: {totalSum}")
+    r = None
+    values = input("Enter values: ").split()
+    for val in values:
+        r = insert(r, int(val))
+    print("Inorder traversal: ", end="")
+    inorder(r)
+    print("\nSum of nodes divisible by 5: ", end="")
+    print(sum_divisible(r))
